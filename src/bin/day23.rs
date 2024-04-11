@@ -33,7 +33,7 @@ fn process_input(input: &str, is_pt2: bool) -> usize {
         .unwrap()
         .keys()
         .filter(|&node| *node != start_pos)
-        .map(|x| *x)
+        .copied()
         .collect::<Vec<_>>();
     for trim_start_node in trim_start_nodes {
         let mut current_node = trim_start_node;
@@ -46,7 +46,7 @@ fn process_input(input: &str, is_pt2: bool) -> usize {
                 .keys()
                 .filter(|&node| *node != node_after_start)
                 .find(|&node| graph.get(node).unwrap().len() < 4)
-                .map(|x| *x)
+                .copied()
                 .unwrap();
             graph.get_mut(&next_edge_node).unwrap().remove(&current_node);
             current_node = next_edge_node;

@@ -58,17 +58,17 @@ fn process_input(input: &str, is_pt2: bool) -> usize {
             let mut fall_bricks = bricks_above_map.get(&brick_num)
                 .unwrap()
                 .iter()
-                .map(|x| *x)
                 .filter(
                     |brick_above|
                         bricks_below_map.get(brick_above).unwrap().len() <= 1
                 )
+                .copied()
                 .collect::<HashSet<_>>();
             let mut above_bricks = fall_bricks
                 .iter()
                 .map(|brick_num| bricks_above_map.get(brick_num).unwrap())
                 .flatten()
-                .map(|x| *x)
+                .copied()
                 .collect::<HashSet<_>>();
             fall_bricks.insert(brick_num);
             loop {
@@ -85,7 +85,7 @@ fn process_input(input: &str, is_pt2: bool) -> usize {
                 if !has_new_falls {
                     break;
                 }
-                above_bricks = above_bricks.difference(&fall_bricks).map(|x| *x).collect();
+                above_bricks = above_bricks.difference(&fall_bricks).copied().collect();
                 above_bricks.extend(new_above_bricks);
             }
             let fall_for_current = fall_bricks.iter().count() - 1;
